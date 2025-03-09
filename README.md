@@ -1,92 +1,61 @@
-### ขั้นตอนการใช้งาน Git Clone เพื่อดาวน์โหลดโปรเจค
+```markdown
+# โครงการ: โปรแกรมตรวจสอบสถานะเว็บไซต์แบบ asynchronous ด้วย `asyncio`
 
----
+## คำอธิบายโปรแกรม
+โปรแกรมนี้เป็นตัวอย่างการใช้งาน `asyncio` ใน Python เพื่อตรวจสอบสถานะ HTTP ของเว็บไซต์หลายแห่งแบบ asynchronous โดยโปรแกรมจะส่งคำขอ HTTP พร้อมกันหลายคำขอและแสดงสถานะ HTTP response code (เช่น 200, 404) ของแต่ละเว็บไซต์
 
-### 1. **เตรียมเครื่องมือ**
-- ติดตั้ง Git บนเครื่องของคุณ (หากยังไม่ได้ติดตั้ง):
-  - ดาวน์โหลด Git จาก [git-scm.com](https://git-scm.com/)
-  - ติดตั้งตามขั้นตอนที่แนะนำ
+## ไฟล์ในโครงการ
+- `main.py`: โค้ดหลักของโปรแกรม
+- `README.md`: คำอธิบายโครงการ
 
-- ตรวจสอบว่า Git ติดตั้งเรียบร้อยแล้ว:
-  ```bash
-  git --version
-  ```
+## การติดตั้งและรันโปรแกรม
 
----
+### ขั้นตอนการติดตั้ง
+1. ติดตั้ง Python 3.7 หรือสูงกว่า
+2. ติดตั้งไลบรารี `aiohttp`:
+   ```bash
+   pip install aiohttp
+   ```
 
-### 2. **ใช้ Git Clone เพื่อดาวน์โหลดโปรเจค**
+### ขั้นตอนการรันโปรแกรม
+1. โคลนโปรเจคจาก Git repository:
+   ```bash
+   git clone https://github.com/chokunkie02/Asynchronous-website-status-checking-program-using-asyncio.git
+   cd Asynchronous-website-status-checking-program-using-asyncio
+   ```
+2. รันโปรแกรม:
+   ```bash
+   python main.py
+   ```
 
-#### คำสั่ง Git Clone
-- เปิด Terminal หรือ Command Prompt
-- รันคำสั่งต่อไปนี้เพื่อโคลนโปรเจคจาก GitHub:
-  ```bash
-  git clone https://github.com/chokunkie02/async-downloader.git
-  ```
+## ผลลัพธ์ที่คาดหวัง
+โปรแกรมจะแสดงสถานะ HTTP response code ของแต่ละเว็บไซต์ เช่น:
+```
+Status of https://www.google.com: 200
+Status of https://www.github.com: 200
+Status of https://www.example.com: 200
+Error checking https://www.invalid-website-12345.com: Cannot connect to host...
+```
 
-#### ผลลัพธ์ที่คาดหวัง
-- Git จะดาวน์โหลดโปรเจคทั้งหมดลงในโฟลเดอร์ `async-downloader`:
-  ```
-  Cloning into 'async-downloader'...
-  remote: Enumerating objects: 10, done.
-  remote: Counting objects: 100% (10/10), done.
-  remote: Compressing objects: 100% (8/8), done.
-  remote: Total 10 (delta 1), reused 0 (delta 0), pack-reused 0
-  Receiving objects: 100% (10/10), done.
-  Resolving deltas: 100% (1/1), done.
-  ```
+## รายละเอียดโค้ด
+### ฟังก์ชัน `check_website_status`
+- ฟังก์ชันนี้ใช้ `aiohttp` เพื่อส่งคำขอ GET ไปยัง URL ที่กำหนด
+- หากสำเร็จ จะแสดงสถานะ HTTP response code (เช่น 200, 404)
+- หากเกิดข้อผิดพลาด (เช่น เว็บไซต์ไม่สามารถเข้าถึงได้) จะแสดงข้อความ error
 
----
+### ฟังก์ชัน `main`
+- ฟังก์ชันหลักที่สร้าง `aiohttp.ClientSession` และ task สำหรับตรวจสอบสถานะเว็บไซต์หลายแห่งพร้อมกัน
+- ใช้ `asyncio.gather` เพื่อรัน task พร้อมกัน
 
-### 3. **เข้าไปในโฟลเดอร์โปรเจค**
+### การรันโปรแกรม
+- ใช้ `asyncio.run(main(urls))` เพื่อรันฟังก์ชันหลัก `main`
 
-- ใช้คำสั่ง `cd` เพื่อเข้าไปในโฟลเดอร์โปรเจค:
-  ```bash
-  cd async-downloader
-  ```
+## การส่งงาน
+- ส่งโค้ดในรูปแบบ Git repository
+- ไฟล์ README.md ควรมีคำอธิบายโครงการและวิธีการรันโปรแกรม
 
----
-
-### 4. **ตรวจสอบไฟล์ในโปรเจค**
-
-- ตรวจสอบไฟล์ที่ดาวน์โหลดมา:
-  ```bash
-  ls
-  ```
-- ผลลัพธ์ที่คาดหวัง:
-  ```
-  README.md
-  async_downloader.py
-  ```
-
----
-
-### 5. **ติดตั้ง dependencies**
-
-- ติดตั้งไลบรารีที่จำเป็น (`aiohttp`):
-  ```bash
-  pip install aiohttp
-  ```
-
----
-
-### 6. **รันโปรแกรม**
-
-- รันโปรแกรมโดยใช้คำสั่ง:
-  ```bash
-  python async_downloader.py
-  ```
-
----
-
-### 7. **ผลลัพธ์ที่คาดหวัง**
-
-- โปรแกรมจะแสดงผลลัพธ์การดาวน์โหลดหน้าเว็บแบบ asynchronous:
-  ```
-  Starting downloads...
-  Read 3769 bytes from https://www.jython.org
-  Read 274 bytes from http://olympus.realpython.org/dice
-  ...
-  Downloaded 160 sites in 1.72 seconds
-  ```
+## หมายเหตุ
+- สามารถเพิ่มหรือแก้ไขรายการเว็บไซต์ในตัวแปร `urls` เพื่อทดสอบกับเว็บไซต์อื่นๆ ได้
+- หากต้องการทดสอบกับเว็บไซต์จำนวนมาก สามารถใช้ลิสต์ URL จากไฟล์หรือ API ได้
 
 ---
